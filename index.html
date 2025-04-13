@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Econeta FC</title>
+    <style>
+        /* General */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url('fondoverde.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+        }
+
+        .blur {
+            filter: blur(5px);
+            transition: filter 0.5s ease;
+        }
+
+        .no-blur {
+            filter: none;
+            transition: filter 0.5s ease;
+        }
+
+        /* Logo */
+        .logo-container {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 80px;
+            height: 80px;
+            background: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            z-index: 20;
+            cursor: pointer;
+        }
+
+        .logo-container img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        /* Encabezado */
+        .header {
+            text-align: center;
+            font-size: 50px;
+            font-style: italic;
+            margin-top: 20px;
+            color: #ffd700; /* Dorado */
+        }
+
+        /* Menú */
+        .menu {
+            width: 25%;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 15px; /* Esquinas redondeadas */
+            position: absolute;
+            top: 100px;
+            left: 10px;
+            z-index: 10;
+        }
+
+        .menu h2 {
+            color: #ffd700; /* Dorado */
+            text-align: center;
+        }
+
+        .menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu ul li {
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .menu ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .menu ul li a:hover {
+            color: #ffd700;
+        }
+
+        /* Menús de jugadores e historia */
+        .player-menu, .history-menu {
+            position: absolute;
+            top: 200px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .player-menu ul {
+            display: none;
+        }
+
+        .player-menu:hover ul {
+            display: block;
+        }
+
+        .history-menu {
+            top: 300px;
+        }
+
+        /* Modal de historia */
+        .history-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            width: 50%;
+            max-height: 70%;
+            padding: 20px;
+            border-radius: 15px;
+            overflow-y: auto;
+            z-index: 30;
+        }
+
+        .history-modal::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .history-modal::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 10px;
+        }
+
+        .history-modal::-webkit-scrollbar-thumb:hover {
+            background: #666;
+        }
+
+        /* Botón para cerrar modal */
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            color: #ffd700;
+            background: none;
+            border: none;
+        }
+
+        /* Contenido principal */
+        .content {
+            text-align: center;
+            margin-top: 150px;
+            padding: 20px;
+        }
+
+        .image-container img {
+            max-width: 90%;
+            max-height: 500px;
+            object-fit: contain;
+            transform: scale(0.9);
+            transition: transform 0.5s ease;
+        }
+
+        .image-container img.animate {
+            transform: scale(1);
+        }
+
+        /* Frase inferior */
+        .footer {
+            text-align: center;
+            padding: 10px;
+            font-size: 18px;
+            font-style: italic;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffd700; /* Dorado */
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Botón interactivo */
+        .contact-button {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #ffd700;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            z-index: 20;
+        }
+
+        .contact-button:hover {
+            background: #ffd700;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo -->
+    <div class="logo-container" onclick="resetToHome()">
+        <img src="logo.png" alt="Logo Econeta FC">
+    </div>
+
+    <!-- Header -->
+    <div class="header">𝓔𝓬𝓸𝓷𝓮𝓽𝓪 𝓕𝓒</div>
+
+    <!-- Menú -->
+    <div class="menu">
+        <h2>Econeta FC</h2>
+        <ul>
+            <li><a href="#" onclick="showMatchInfo('debut', 'Debut')">Debut</a></li>
+            <li><a href="#" onclick="showMatchInfo('sociales1', 'Sociales 1')">Sociales 1</a></li>
+            <li><a href="#" onclick="showMatchInfo('sociales2', 'Sociales 2')">Sociales 2</a></li>
+            <li><a href="#" onclick="showMatchInfo('sociales3', 'Sociales 3')">Sociales 3</a></li>
+            <li><a href="#" onclick="showMatchInfo('4tonaturales', '4to Naturales')">4to Naturales</a></li>
+            <li><a href="#" onclick="showMatchInfo('charros', 'Charros')">Charros</a></li>
+        </ul>
+    </div>
+
+    <!-- Menú de jugadores -->
+    <div class="player-menu">
+        Jugadores
+        <ul>
+            <li>Alexander Navarro</li>
+            <li>Daniel Vargas</li>
+            <li>Facundo Quiroga</li>
+            <li>Facundo "Morron" Gomez</li>
+            <li>Fausto Mercado</li>
+            <li>Fran Astrada</li>
+            <li>Isaac Serrano</li>
+            <li>Leon Carabajal</li>
+            <li>Lucas Suarez</li>
+            <li>Mateo Pagano</li>
+            <li>Roman Benina</li>
+            <li>Santino Pereira</li>
+            <li>Simon Sosa</li>
+            <li>Tadeo Casavalle</li>
+            <li>Thaiel Pignanessi</li>
+            <li>Tobias Albarracin</li>
+            <li>Ulises Achinelli</li>
+            <li>Valentin Ares</li>
+        </ul>
+    </div>
+
+    <!-- Menú de historia -->
+    <div class="history-menu" onclick="openHistoryModal()">
+        Historia
+    </div>
+
+    <!-- Modal de historia -->
+    <div class="history-modal" id="historyModal">
+        <button class="close-modal" onclick="closeHistoryModal()">✖</button>
+        <p>
+            Econeta FC, conocido popularmente como "La Econeta", es un equipo legendario de Fútbol 5, 7 y 9, con sede en la mítica cancha de "El Rayo", en Merlo. Sus orígenes se remontan al tercer año de secundaria, cuando aún no contaba con nombre, escudo ni indumentaria oficial. Fue en ese entonces cuando seis visionarios—Fausto Mercado, Leon Carabajal, Thaiel Pignanessi, Ulises Achinelli, Tadeo Casavalle y Román Benina—decidieron formar una hermandad futbolística para enfrentarse a equipos de otros cursos. Así nació la primera etapa de un sueño.
+
+            La leyenda creció. En el cuarto año, La Econeta evolucionó y sumó nuevas figuras al plantel, fortaleciendo su escuadra con talentos como:
+            Daniel Vargas, Facundo Quiroga, Facundo "Morron" Gómez, Fran Astrada, Isaac Serrano, Lucas Suárez, Mateo Pagano, Santino Pereira, Simón Sosa, Tobías Albarracín y Valentín Ares.
+
+            El equipo hizo su debut oficial frente al conjunto que hoy representa a Sociales. El enfrentamiento fue tan intenso que terminó en un empate 4-4, aunque el partido finalizó anticipadamente por abandono del rival. Ese día, La Econeta no solo hizo su presentación: dejó una marca imborrable.
+
+            Desde entonces, su misión fue clara: alcanzar el respeto y la gloria en toda la escuela. ¿Cómo lograrlo? Derrotando a cada curso, uno por uno. Ganándole a todo el colegio.
+        </p>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="content" id="content">
+        <div class="image-container">
+            <img src="player1.png" alt="Partido" id="matchImage">
+        </div>
+        <h2 id="matchTitle">Selecciona un partido</h2>
+        <p id="matchLore">Aquí se mostrará la información del partido seleccionado.</p>
+    </div>
+
+    <!-- Frase inferior -->
+    <div class="footer">𝓟𝓸𝓭𝓻𝓪𝓷 𝓲𝓶𝓲𝓽𝓪𝓻𝓷𝓸𝓼 𝓹𝓮𝓻𝓸 𝓳𝓪𝓶𝓪𝓼 𝓲𝓰𝓾𝓪𝓵𝓪𝓻𝓷𝓸𝓼</div>
+
+    <!-- Botón interactivo -->
+    <a class="contact-button" href="https://www.instagram.com/econeta.fc/" target="_blank">¿Qᴜᴇʀᴇꜱ ᴊᴜɢᴀʀɴᴏꜱ?✉</a>
+
+    <script>
+        // Información de los partidos
+        const matches = {
+            debut: { image: "debut.png", lore: "Un emocionante debut terminando en empate 4-4." },
+            sociales1: { image: "sociales1.png", lore: "Sociales 1: Partido difícil con derrota 5-3." },
+            sociales2: { image: "sociales2.png", lore: "Sociales 2: Intenso enfrentamiento estratégico." },
+            sociales3: { image: "sociales3.png", lore: "Sociales 3: Complicado, pero lleno de lecciones." },
+            "4tonaturales": { image: "4tonaturales.png", lore: "Victoria épica 12-10 en 4to Naturales." },
+            charros: { image: "charros.png", lore: "Aplastante victoria 22-5 contra Charros." }
+        };
+
+        function showMatchInfo(matchKey, matchTitle) {
+            const match = matches[matchKey];
+            const matchImage = document.getElementById("matchImage");
+            matchImage.src = match.image || "player1.png";
+            matchImage.classList.remove("animate");
+            setTimeout(() => matchImage.classList.add("animate"), 0); // Reinicia la animación
+            document.getElementById("matchTitle").textContent = matchTitle;
+            document.getElementById("matchLore").textContent = match.lore || "Información no disponible.";
+        }
+
+        function resetToHome() {
+            const matchImage = document.getElementById("matchImage");
+            matchImage.src = "player1.png";
+            document.getElementById("matchTitle").textContent = "Selecciona un partido";
+            document.getElementById("matchLore").textContent = "Aquí se mostrará la información del partido seleccionado.";
+        }
+
+        function openHistoryModal() {
+            const modal = document.getElementById("historyModal");
+            modal.style.display = "block";
+            document.getElementById("content").classList.add("blur"); // Aplica desenfoque al fondo
+        }
+
+        function closeHistoryModal() {
+            const modal = document.getElementById("historyModal");
+            modal.style.display = "none";
+            document.getElementById("content").classList.remove("blur"); // Elimina desenfoque
+        }
+    </script>
+</body>
+</html>
